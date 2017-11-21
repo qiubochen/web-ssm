@@ -6,10 +6,10 @@
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="book_id" property="bookId" jdbcType="VARCHAR"/>
     </resultMap>
-    <select id="getAllCategory" resultMap="CategoryBaseMap">
+    <select id="selectAllCategory" resultMap="CategoryBaseMap">
     SELECT id,book_id,name from category
     </select>
     <select id="selectBookIdByName" resultMap="java.lang.Integer">
-        SELECT id,book_id FROM category WHERE name=#{name};
+        SELECT book_id FROM category WHERE name=#{name};
     </select>
 </mapper>

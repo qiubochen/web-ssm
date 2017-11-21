@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.BookDao">
+    <resultMap id="BookBaseMap" type="com.heitian.ssm.model.Book">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="publishing_date" property="publishingDate" jdbcType="DATE"/>
+        <result column="publishing_house" property="publishingHouse" jdbcType="VARCHAR"/>
+        <result column="click_count" property="clickCount" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="INTEGER"/>
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT"/>
+        <result column="is_buy" property="isBuy" jdbcType="TINYINT"/>
+    </resultMap>
+    <select id="selectAllBook" resultMap="BookBaseMap">
+        SELECT book.id AS id ,book.name AS name,book.publishing_date AS publishing_date,book.publishing_house AS publishing_house,
+        book.click_count AS click_count,book.price AS price,book.is_delete AS is_delete,book.is_buy AS is_buy,category FROM book,category ;
+    </select>
+    <select id="selectBookById" resultMap="BookBaseMap">
+        SELECT id,name,publishing_data,publishing_house,click_count,price,is_deleted,is_buy from book where id=#{id};
+    </select>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.CategoryDao">
+    <resultMap id="CategoryBaseMap" type="com.heitian.ssm.model.Category">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="book_id" property="bookId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="getAllCategory" resultMap="CategoryBaseMap">
+    SELECT id,book_id,name from category
+    </select>
+    <select id="selectBookIdByName" resultMap="java.lang.Integer">
+        SELECT id,book_id FROM category WHERE name=#{name};
+    </select>
+</mapper>

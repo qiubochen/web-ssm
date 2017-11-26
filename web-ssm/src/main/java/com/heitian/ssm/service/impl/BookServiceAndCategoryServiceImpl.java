@@ -2,7 +2,6 @@ package com.heitian.ssm.service.impl;
 
 import com.heitian.ssm.dao.BookDao;
 import com.heitian.ssm.dao.CategoryDao;
-import com.heitian.ssm.dao.UserDao;
 import com.heitian.ssm.model.Book;
 import com.heitian.ssm.model.Category;
 import com.heitian.ssm.service.BookService;
@@ -14,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 import com.alibaba.fastjson.*;
-
-import javax.annotation.Resource;
 
 @Service
 public class BookServiceAndCategoryServiceImpl implements BookService,CategoryService{
@@ -32,33 +29,48 @@ public class BookServiceAndCategoryServiceImpl implements BookService,CategorySe
     }
     public JSONObject sortAllBookAndCategory(){
         List<Category>listOfCategory=new ArrayList<Category>();
-        Set<Category>setOfCategory=new TreeSet<Category>();
+        Set<String> setOfCategoryName=new TreeSet<String>();
         JSONObject jsonObject=new JSONObject();
 
         listOfCategory=categoryDao.selectAllCategory();
 
         Iterator<Category>iteratorOfListOfCategory=listOfCategory.iterator();
-        Iterator<Category>iteratorOfSetOfCategory=setOfCategory.iterator();
+
 
         while(iteratorOfListOfCategory.hasNext()){
-            setOfCategory.add(iteratorOfListOfCategory.next());
+            setOfCategoryName.add(iteratorOfListOfCategory.next().getName());
         }
-        while (iteratorOfSetOfCategory.hasNext()){
+        Iterator<String>iteratorOfSetOfCategoryName = setOfCategoryName.iterator();
+        while (iteratorOfSetOfCategoryName.hasNext()){
             List<Integer>list=new ArrayList<Integer>();
             List<Book>listToCompareByClickCount=new ArrayList<Book>();
+            String str=(String)iteratorOfSetOfCategoryName.next();
+            System.out.println(str);
 
-            list=categoryDao.selectBookIdByName(iteratorOfSetOfCategory.next().getName());
+            list=categoryDao.selectBookIdByName(str);
             Iterator iterator=list.iterator();
 
             while(iterator.hasNext()){
 
-               listToCompareByClickCount=bookDao.selectBookById((Integer) iterator.next());
+               listToCompareByClickCount.add((Book) bookDao.selectBookById((Integer) iterator.next()));
 
             }
+
             Collections.sort(listToCompareByClickCount,new BookComparator());
-            jsonObject.put(iteratorOfSetOfCategory.next().getName(),listToCompareByClickCount);
+
+
+            jsonObject.put(str,listToCompareByClickCount);
+            System.out.println(jsonObject.toJSONString());
         }
         return jsonObject;
     }
+    public JSONArray searchBookByPublishingHouseOrBookName(String strOfNameOrPublishingHouse){
+        JSONArray jsonArrayOfBookNameOrPublishingHouse=new JSONArray();
+        System.out.println("输入的名字"+strOfNameOrPublishingHouse);
 
+        jsonArrayOfBookNameOrPublishingHouse.add(bookDao.selectBookByBookName(strOfNameOrPublishingHouse));
+        jsonArrayOfBookNameOrPublishingHouse.add(bookDao.selectBookByPublishingHouse(strOfNameOrPublishingHouse));
+
+        return jsonArrayOfBookNameOrPublishingHouse;
+    }
 }

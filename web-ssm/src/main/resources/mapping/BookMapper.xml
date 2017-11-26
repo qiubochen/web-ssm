@@ -16,6 +16,12 @@
         book.click_count AS click_count,book.price AS price,book.is_delete AS is_delete,book.is_buy AS is_buy,category FROM book,category ;
     </select>
     <select id="selectBookById" resultMap="BookBaseMap">
-        SELECT id,name,publishing_data,publishing_house,click_count,price,is_deleted,is_buy from book where id=#{id};
+        SELECT id,name,publishing_date,publishing_house,click_count,price,is_delete,is_buy from book where id=#{id};
+    </select>
+    <select id="selectBookByPublishingHouse" resultMap="BookBaseMap">
+        SELECT id,name,publishing_date,publishing_house,click_count,price,is_delete,is_buy from book where publishing_house LIKE '%${strOfPublishingHouse}%';
+    </select>
+    <select id="selectBookByBookName" resultMap="BookBaseMap">
+         SELECT id,name,publishing_date,publishing_house,click_count,price,is_delete,is_buy from book where name LIKE '%${strOfBookName}%';
     </select>
 </mapper>

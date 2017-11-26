@@ -1,15 +1,16 @@
 package com.heitian.ssm.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.heitian.ssm.dao.CategoryDao;
 import com.heitian.ssm.service.BookService;
 import com.heitian.ssm.service.CategoryService;
 import com.heitian.ssm.service.impl.BookServiceAndCategoryServiceImpl;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.json.JsonArray;
 
 @Controller
 @RequestMapping("/book")
@@ -18,11 +19,18 @@ public class BookController {
     private BookService bookService;
     @Resource
     private CategoryService categoryService;
-    @RequestMapping("/showbook")
+    @Resource
+    private BookServiceAndCategoryServiceImpl bookServiceAndCategoryService;
+    @RequestMapping(value = "/showbook",method = RequestMethod.GET)
     public @ResponseBody
     JSONObject show(){
-       BookServiceAndCategoryServiceImpl bookServiceAndCategoryService=new BookServiceAndCategoryServiceImpl();
+       //BookServiceAndCategoryServiceImpl bookServiceAndCategoryService=new BookServiceAndCategoryServiceImpl();
        return bookServiceAndCategoryService.sortAllBookAndCategory();
     }
-
+    @RequestMapping(value = "/searchbook",method = RequestMethod.GET)
+    public @ResponseBody
+    JSONArray search(@RequestParam(value = "strOfBookNameOrPublishingHouse") String strOfBookNameOrPublishingHouse){
+        System.out.println(strOfBookNameOrPublishingHouse);
+        return bookServiceAndCategoryService.searchBookByPublishingHouseOrBookName(strOfBookNameOrPublishingHouse);
+    }
 }

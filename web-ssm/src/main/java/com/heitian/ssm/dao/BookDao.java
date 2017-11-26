@@ -8,5 +8,7 @@ import java.util.List;
 @Repository
 public interface BookDao {
     List<Book> selectAllBook();
-    List<Book> selectBookById(@Param("id") int id);
+    Book selectBookById(@Param("id") int id);
+    List<Book>selectBookByPublishingHouse(@Param("strOfPublishingHouse") String strOfPublishingHouse);
+    List<Book>selectBookByBookName(@Param("strOfBookName") String strOfBookName);
 }

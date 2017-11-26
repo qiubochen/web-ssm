@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import com.alibaba.fastjson.*;
+
+import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -31,6 +33,11 @@ public class UserController {
     @RequestMapping("/showUser")
     public String showUser(HttpServletRequest request, Model model){
         log.info("查询所有用户信息");
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("asd","asd");
+        jsonObject.put("qw","sad");
+        jsonObject.put("sa","ccc");
+        System.out.println("jsonobject"+jsonObject.toJSONString());
         List<User> userList = userService.getAllUser();
         model.addAttribute("userList",userList);
         //todo 返回json数据

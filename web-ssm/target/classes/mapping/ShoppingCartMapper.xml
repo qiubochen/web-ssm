@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heitian.ssm.dao.ShoppingCartDao">
+    <resultMap id="ShoppingCartBaseMap" type="com.heitian.ssm.model.ShoppingCart">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="book_id" property="bookId" jdbcType="INTEGER"/>
+        <result column="cost" property="cost" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="book_account" property="bookAccount" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="selectShoppingCartByUserId" resultMap="ShoppingCartBaseMap">
+        select id,user_id,book_id,cost,status,book_account from shoppingcart where user_id=#{userId} AND status='0';
+    </select>
+    <insert id="insertShoppingCart">
+        INSERT INTO shoppingcart(book_id,user_id,cost,book_account)VALUES (#{bookId},#{userId},#{cost},#{bookAccount});
+    </insert>
+</mapper>

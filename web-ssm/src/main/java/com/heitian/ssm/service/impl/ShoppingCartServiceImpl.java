@@ -45,6 +45,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public int addShoppingCart(int bookId,int userId,int bookAccount) {
 
         Book book = bookDao.selectBookById((bookId));
+        if(book==null)
+            return 100003;
         int cost=bookAccount*book.getPrice();
         shoppingCartDao.insertShoppingCart(userId,bookId,bookAccount,cost);
         return 200;

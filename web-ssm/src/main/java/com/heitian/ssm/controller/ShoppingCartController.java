@@ -27,7 +27,7 @@ public class ShoppingCartController {
      public   @ResponseBody JSONObject addShoppingCart(@RequestBody ShoppingCart shoppingCart){
         int status= shoppingCartService.addShoppingCart(shoppingCart.getBookId(),shoppingCart.getUserId(),shoppingCart.getBookAccount());
         JSONObject jsonObject=new JSONObject();
-        jsonObject.put("status",200);
+        jsonObject.put("status",status);
         return jsonObject;
     }
 }
